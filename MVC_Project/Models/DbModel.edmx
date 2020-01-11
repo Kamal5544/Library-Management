@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="libraryManagemenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblBook">
+          <Key>
+            <PropertyRef Name="bookId" />
+          </Key>
+          <Property Name="bookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="serialNumber" Type="varchar" MaxLength="10" />
+          <Property Name="Author" Type="varchar" MaxLength="50" />
+          <Property Name="publisher" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblBorrowHistory">
+          <Key>
+            <PropertyRef Name="BorrowHistoryId" />
+          </Key>
+          <Property Name="BorrowHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bookId" Type="int" />
+          <Property Name="memberId" Type="int" />
+          <Property Name="BorrowDate" Type="date" />
+          <Property Name="ReturnDate" Type="date" />
+        </EntityType>
+        <EntityType Name="tblMember">
+          <Key>
+            <PropertyRef Name="memberId" />
+          </Key>
+          <Property Name="memberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="memberName" Type="varchar" MaxLength="50" />
+          <Property Name="address" Type="varchar" MaxLength="50" />
+          <Property Name="contact" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__tblBorrow__bookI__276EDEB3">
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="0..1" />
+          <End Role="tblBorrowHistory" Type="Self.tblBorrowHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBook">
+              <PropertyRef Name="bookId" />
+            </Principal>
+            <Dependent Role="tblBorrowHistory">
+              <PropertyRef Name="bookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblBorrow__membe__286302EC">
+          <End Role="tblMember" Type="Self.tblMember" Multiplicity="0..1" />
+          <End Role="tblBorrowHistory" Type="Self.tblBorrowHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMember">
+              <PropertyRef Name="memberId" />
+            </Principal>
+            <Dependent Role="tblBorrowHistory">
+              <PropertyRef Name="memberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="libraryManagemenModelStoreContainer">
+          <EntitySet Name="tblBook" EntityType="Self.tblBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBorrowHistory" EntityType="Self.tblBorrowHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMember" EntityType="Self.tblMember" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblBorrow__bookI__276EDEB3" Association="Self.FK__tblBorrow__bookI__276EDEB3">
+            <End Role="tblBook" EntitySet="tblBook" />
+            <End Role="tblBorrowHistory" EntitySet="tblBorrowHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblBorrow__membe__286302EC" Association="Self.FK__tblBorrow__membe__286302EC">
+            <End Role="tblMember" EntitySet="tblMember" />
+            <End Role="tblBorrowHistory" EntitySet="tblBorrowHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="libraryManagemenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblBook">
+          <Key>
+            <PropertyRef Name="bookId" />
+          </Key>
+          <Property Name="bookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serialNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="publisher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblBorrowHistories" Relationship="Self.FK__tblBorrow__bookI__276EDEB3" FromRole="tblBook" ToRole="tblBorrowHistory" />
+        </EntityType>
+        <EntityType Name="tblBorrowHistory">
+          <Key>
+            <PropertyRef Name="BorrowHistoryId" />
+          </Key>
+          <Property Name="BorrowHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bookId" Type="Int32" />
+          <Property Name="memberId" Type="Int32" />
+          <Property Name="BorrowDate" Type="DateTime" Precision="0" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblBook" Relationship="Self.FK__tblBorrow__bookI__276EDEB3" FromRole="tblBorrowHistory" ToRole="tblBook" />
+          <NavigationProperty Name="tblMember" Relationship="Self.FK__tblBorrow__membe__286302EC" FromRole="tblBorrowHistory" ToRole="tblMember" />
+        </EntityType>
+        <EntityType Name="tblMember">
+          <Key>
+            <PropertyRef Name="memberId" />
+          </Key>
+          <Property Name="memberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="memberName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblBorrowHistories" Relationship="Self.FK__tblBorrow__membe__286302EC" FromRole="tblMember" ToRole="tblBorrowHistory" />
+        </EntityType>
+        <Association Name="FK__tblBorrow__bookI__276EDEB3">
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="0..1" />
+          <End Role="tblBorrowHistory" Type="Self.tblBorrowHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBook">
+              <PropertyRef Name="bookId" />
+            </Principal>
+            <Dependent Role="tblBorrowHistory">
+              <PropertyRef Name="bookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblBorrow__membe__286302EC">
+          <End Role="tblMember" Type="Self.tblMember" Multiplicity="0..1" />
+          <End Role="tblBorrowHistory" Type="Self.tblBorrowHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMember">
+              <PropertyRef Name="memberId" />
+            </Principal>
+            <Dependent Role="tblBorrowHistory">
+              <PropertyRef Name="memberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="libraryManagemenDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblBooks" EntityType="Self.tblBook" />
+          <EntitySet Name="tblBorrowHistories" EntityType="Self.tblBorrowHistory" />
+          <EntitySet Name="tblMembers" EntityType="Self.tblMember" />
+          <AssociationSet Name="FK__tblBorrow__bookI__276EDEB3" Association="Self.FK__tblBorrow__bookI__276EDEB3">
+            <End Role="tblBook" EntitySet="tblBooks" />
+            <End Role="tblBorrowHistory" EntitySet="tblBorrowHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblBorrow__membe__286302EC" Association="Self.FK__tblBorrow__membe__286302EC">
+            <End Role="tblMember" EntitySet="tblMembers" />
+            <End Role="tblBorrowHistory" EntitySet="tblBorrowHistories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="libraryManagemenModelStoreContainer" CdmEntityContainer="libraryManagemenDbContext">
+          <EntitySetMapping Name="tblBooks">
+            <EntityTypeMapping TypeName="libraryManagemenModel.tblBook">
+              <MappingFragment StoreEntitySet="tblBook">
+                <ScalarProperty Name="bookId" ColumnName="bookId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="publisher" ColumnName="publisher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBorrowHistories">
+            <EntityTypeMapping TypeName="libraryManagemenModel.tblBorrowHistory">
+              <MappingFragment StoreEntitySet="tblBorrowHistory">
+                <ScalarProperty Name="BorrowHistoryId" ColumnName="BorrowHistoryId" />
+                <ScalarProperty Name="bookId" ColumnName="bookId" />
+                <ScalarProperty Name="memberId" ColumnName="memberId" />
+                <ScalarProperty Name="BorrowDate" ColumnName="BorrowDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMembers">
+            <EntityTypeMapping TypeName="libraryManagemenModel.tblMember">
+              <MappingFragment StoreEntitySet="tblMember">
+                <ScalarProperty Name="memberId" ColumnName="memberId" />
+                <ScalarProperty Name="memberName" ColumnName="memberName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
